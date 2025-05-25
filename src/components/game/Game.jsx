@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Image mapping for tiles - using placeholder for now, will be replaced with actual JPG files
 const images = {
-  1994: './placeholder.jpg',
-  1995: './placeholder.jpg',
-  1998: './placeholder.jpg',
-  2000: './placeholder.jpg',
-  2005: './placeholder.jpg',
-  2006: './placeholder.jpg',
-  2007: './placeholder.jpg',
-  2010: './placeholder.jpg',
-  2013: './placeholder.jpg',
-  2014: './placeholder.jpg',
-  2016: './placeholder.jpg',
-  2017: './placeholder.jpg',
-  2019: './placeholder.jpg',
-  2020: './placeholder.jpg',
-  2021: './placeholder.jpg',
+  1994: './1994.jpg',
+  1995: './1995.jpg',
+  1998: './1998.jpg',
+  2000: './2000.jpg',
+  2005: './2005.jpg',
+  2006: './2006.jpg',
+  2007: './2007.jpg',
+  2010: './2010.jpg',
+  2013: './2013.jpg',
+  2014: './2014.jpg',
+  2016: './2016.jpg',
+  2017: './2017.jpg',
+  2019: './2019.jpg',
+  2020: './2020.jpg',
+  2021: './2021.jpg',
   '2024a': './placeholder.jpg',
   '2025a': './placeholder.jpg',
   '2025b': './placeholder.jpg',
@@ -33,8 +33,8 @@ const images = {
   challenge5: './placeholder.jpg',
   romance: './placeholder.jpg',
   danger: './placeholder.jpg',
-  start: './placeholder.jpg',
-  finish: './placeholder.jpg'
+  start: './test.jpg',
+  finish: './test.jpg'
 };
 
 // Fallback placeholder image for demo purposes
@@ -299,7 +299,8 @@ function Modal({ data, onClose }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: 50
+        zIndex: 50,
+        padding: '16px'
       }} 
       onClick={onClose}
     >
@@ -308,18 +309,24 @@ function Modal({ data, onClose }) {
           background: 'linear-gradient(135deg, #374151, #111827)',
           border: '2px solid #9CA3AF',
           borderRadius: '16px',
-          padding: '24px',
+          padding: window.innerWidth < 768 ? '16px' : '24px',
           maxWidth: '512px',
           width: '100%',
-          margin: '16px',
+          maxHeight: '90vh',
+          overflowY: 'auto',
           color: 'white',
           boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)'
         }} 
         onClick={(e) => e.stopPropagation()}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-          <span style={{ fontSize: '24px' }}>{iconMap[data.type] || data.icon}</span>
-          <h2 style={{ fontSize: '20px', fontWeight: 'bold', textTransform: 'capitalize', margin: 0 }}>{data.type}</h2>
+          <span style={{ fontSize: window.innerWidth < 768 ? '20px' : '24px' }}>{iconMap[data.type] || data.icon}</span>
+          <h2 style={{ 
+            fontSize: window.innerWidth < 768 ? '18px' : '20px', 
+            fontWeight: 'bold', 
+            textTransform: 'capitalize', 
+            margin: 0 
+          }}>{data.type}</h2>
         </div>
         
         <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
@@ -327,8 +334,8 @@ function Modal({ data, onClose }) {
             src={getImageSrc()}
             alt={`${data.year} - ${data.type}`}
             style={{
-              width: '192px',
-              height: '144px',
+              width: window.innerWidth < 768 ? '150px' : '192px',
+              height: window.innerWidth < 768 ? '112px' : '144px',
               objectFit: 'cover',
               borderRadius: '8px',
               border: '2px solid #4B5563'
@@ -340,8 +347,20 @@ function Modal({ data, onClose }) {
         </div>
         
         <div style={{ marginBottom: '16px' }}>
-          <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#D1D5DB', marginBottom: '8px', margin: 0 }}>{data.year}</h3>
-          <p style={{ color: '#E5E7EB', lineHeight: '1.625', whiteSpace: 'pre-line', margin: 0 }}>{data.description}</p>
+          <h3 style={{ 
+            fontSize: window.innerWidth < 768 ? '16px' : '18px', 
+            fontWeight: '600', 
+            color: '#D1D5DB', 
+            marginBottom: '8px', 
+            margin: 0 
+          }}>{data.year}</h3>
+          <p style={{ 
+            color: '#E5E7EB', 
+            lineHeight: '1.625', 
+            whiteSpace: 'pre-line', 
+            margin: 0,
+            fontSize: window.innerWidth < 768 ? '14px' : '16px'
+          }}>{data.description}</p>
         </div>
         <button 
           style={{
@@ -349,11 +368,12 @@ function Modal({ data, onClose }) {
             backgroundColor: '#4B5563',
             color: 'white',
             fontWeight: 'bold',
-            padding: '8px 16px',
+            padding: '12px 16px',
             borderRadius: '8px',
             border: 'none',
             cursor: 'pointer',
-            transition: 'background-color 0.3s'
+            transition: 'background-color 0.3s',
+            fontSize: window.innerWidth < 768 ? '14px' : '16px'
           }}
           onMouseOver={(e) => e.target.style.backgroundColor = '#6B7280'}
           onMouseOut={(e) => e.target.style.backgroundColor = '#4B5563'}
@@ -370,20 +390,22 @@ function Modal({ data, onClose }) {
 function Token({ indices }) {
   if (!indices || indices.length === 0) return null;
 
+  const isMobile = window.innerWidth < 768;
+
   return (
     <div style={{
       position: 'absolute',
-      bottom: '4px',
-      right: '4px',
+      bottom: isMobile ? '2px' : '4px',
+      right: isMobile ? '2px' : '4px',
       display: 'flex',
-      gap: '4px'
+      gap: isMobile ? '2px' : '4px'
     }}>
       {indices.map((playerIndex) => (
         <div
           key={playerIndex}
           style={{
-            width: '24px',
-            height: '24px',
+            width: isMobile ? '16px' : '24px',
+            height: isMobile ? '16px' : '24px',
             borderRadius: '50%',
             border: '2px solid',
             borderColor: playerIndex === 0 ? '#93C5FD' : '#FCA5A5',
@@ -392,7 +414,7 @@ function Token({ indices }) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '12px',
+            fontSize: isMobile ? '8px' : '12px',
             fontWeight: 'bold'
           }}
         >
@@ -406,6 +428,15 @@ function Token({ indices }) {
 // Dice Component
 function Dice({ onRoll, rolled, currentRoll }) {
   const [isRolling, setIsRolling] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleClick = () => {
     if (rolled || isRolling) return;
@@ -421,10 +452,10 @@ function Dice({ onRoll, rolled, currentRoll }) {
     <div 
       style={{
         position: 'fixed',
-        bottom: '24px',
-        right: '24px',
-        width: '80px',
-        height: '80px',
+        bottom: isMobile ? '16px' : '24px',
+        right: isMobile ? '16px' : '24px',
+        width: isMobile ? '60px' : '80px',
+        height: isMobile ? '60px' : '80px',
         background: 'linear-gradient(135deg, #374151, #1F2937)',
         border: '2px solid #9CA3AF',
         borderRadius: '16px',
@@ -435,7 +466,8 @@ function Dice({ onRoll, rolled, currentRoll }) {
         boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
         transition: 'transform 0.3s',
         opacity: rolled ? 0.5 : 1,
-        animation: isRolling ? 'bounce 0.6s infinite' : 'none'
+        animation: isRolling ? 'bounce 0.6s infinite' : 'none',
+        zIndex: 40
       }}
       onClick={handleClick}
       onMouseOver={(e) => {
@@ -445,7 +477,7 @@ function Dice({ onRoll, rolled, currentRoll }) {
         e.target.style.transform = 'scale(1)';
       }}
     >
-      <div style={{ fontSize: '24px', fontWeight: 'bold', color: 'white' }}>
+      <div style={{ fontSize: isMobile ? '18px' : '24px', fontWeight: 'bold', color: 'white' }}>
         {currentRoll || '🎲'}
       </div>
     </div>
@@ -459,6 +491,15 @@ function Board() {
   const [modalData, setModalData] = useState(null);
   const [rolled, setRolled] = useState(false);
   const [currentRoll, setCurrentRoll] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const rollDice = () => {
     if (rolled) return;
@@ -508,14 +549,17 @@ function Board() {
       }
     });
 
+    const boardWidth = isMobile ? 'min(95vw, 400px)' : 'min(90vw, 720px)';
+    const gapSize = isMobile ? '2px' : '4px';
+
     return (
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(9, 1fr)',
         gridTemplateRows: 'repeat(9, 1fr)',
-        gap: '4px',
-        width: '720px',
-        height: '720px',
+        gap: gapSize,
+        width: boardWidth,
+        height: boardWidth,
         aspectRatio: '1'
       }}>
         {boardLayout.map((row, rowIndex) =>
@@ -528,15 +572,15 @@ function Board() {
                   style={{
                     backgroundColor: 'rgba(0, 0, 0, 0.7)',
                     border: '2px dashed #9CA3AF',
-                    borderRadius: '8px',
+                    borderRadius: isMobile ? '4px' : '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     textAlign: 'center',
-                    padding: '8px',
+                    padding: isMobile ? '4px' : '8px',
                     color: '#D1D5DB',
                     fontWeight: 'bold',
-                    fontSize: '14px',
+                    fontSize: isMobile ? '8px' : '14px',
                     lineHeight: '1.2'
                   }}
                 >
@@ -583,7 +627,7 @@ function Board() {
                 style={{
                   position: 'relative',
                   border: '2px solid ' + getBorderColor(),
-                  borderRadius: '8px',
+                  borderRadius: isMobile ? '4px' : '8px',
                   overflow: 'hidden',
                   cursor: 'pointer',
                   transition: 'all 0.3s',
@@ -594,13 +638,18 @@ function Board() {
                   backgroundPosition: 'center'
                 }}
                 onClick={() => setModalData(tile)}
+                onTouchStart={() => setModalData(tile)}
                 onMouseOver={(e) => {
-                  e.target.style.borderColor = 'white';
-                  e.target.style.transform = 'scale(1.05)';
+                  if (!isMobile) {
+                    e.target.style.borderColor = 'white';
+                    e.target.style.transform = 'scale(1.05)';
+                  }
                 }}
                 onMouseOut={(e) => {
-                  e.target.style.borderColor = getBorderColor();
-                  e.target.style.transform = 'scale(1)';
+                  if (!isMobile) {
+                    e.target.style.borderColor = getBorderColor();
+                    e.target.style.transform = 'scale(1)';
+                  }
                 }}
               >
                 {/* Dark overlay for better text readability */}
@@ -621,12 +670,12 @@ function Board() {
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'space-between',
-                  padding: '4px',
+                  padding: isMobile ? '2px' : '4px',
                   color: 'white'
                 }}>
                   {tile.icon && (
                     <div style={{
-                      fontSize: '16px',
+                      fontSize: isMobile ? '10px' : '16px',
                       alignSelf: 'flex-end',
                       animation: 'pulse 2s infinite',
                       filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))'
@@ -637,15 +686,16 @@ function Board() {
                   <div style={{
                     fontWeight: 'bold',
                     textAlign: 'center',
-                    fontSize: '10px',
+                    fontSize: isMobile ? '6px' : '10px',
                     filter: 'drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1))',
                     backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                    borderRadius: '4px',
-                    padding: '2px',
-                    minHeight: '14px',
+                    borderRadius: isMobile ? '2px' : '4px',
+                    padding: isMobile ? '1px' : '2px',
+                    minHeight: isMobile ? '8px' : '14px',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    lineHeight: '1.1'
                   }}>
                     {tile.year}
                   </div>
@@ -676,10 +726,11 @@ function Board() {
       minHeight: '100vh',
       background: 'linear-gradient(135deg, #000000, #1F2937)',
       color: 'white',
-      padding: '16px',
+      padding: isMobile ? '8px' : '16px',
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center'
+      alignItems: 'center',
+      paddingBottom: isMobile ? '100px' : '120px'
     }}>
       <style>
         {`
@@ -693,39 +744,61 @@ function Board() {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.5; }
           }
+          
+          @media (max-width: 767px) {
+            body { 
+              overflow-x: hidden; 
+              -webkit-text-size-adjust: 100%;
+            }
+            * { 
+              -webkit-tap-highlight-color: transparent; 
+            }
+          }
         `}
       </style>
       
       <h1 style={{
-        fontSize: '24px',
+        fontSize: isMobile ? '16px' : '24px',
         fontWeight: 'bold',
         textAlign: 'center',
-        marginBottom: '24px',
-        color: '#D1D5DB'
+        marginBottom: isMobile ? '16px' : '24px',
+        color: '#D1D5DB',
+        padding: isMobile ? '0 8px' : '0',
+        lineHeight: '1.2'
       }}>
         Vidhya turns 30+1 - The Board Game - By Vira
       </h1>
       
       <div style={{
         background: 'linear-gradient(135deg, #000000, #374151)',
-        padding: '24px',
-        borderRadius: '24px',
+        padding: isMobile ? '12px' : '24px',
+        borderRadius: isMobile ? '12px' : '24px',
         boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
         border: '1px solid #4B5563',
-        marginBottom: '24px'
+        marginBottom: isMobile ? '16px' : '24px',
+        width: 'fit-content'
       }}>
         {renderBoardTiles()}
       </div>
 
       {/* Game status */}
       <div style={{
-        textAlign: 'center'
+        textAlign: 'center',
+        padding: isMobile ? '0 16px' : '0'
       }}>
-        <p style={{ fontSize: '18px', fontWeight: '600', margin: '8px 0' }}>
+        <p style={{ 
+          fontSize: isMobile ? '14px' : '18px', 
+          fontWeight: '600', 
+          margin: '8px 0' 
+        }}>
           Current Player: {currentPlayer === 0 ? '👑 Player 1' : '👸 Player 2'}
         </p>
         {currentRoll && (
-          <p style={{ fontSize: '16px', color: '#D1D5DB', margin: '4px 0' }}>
+          <p style={{ 
+            fontSize: isMobile ? '12px' : '16px', 
+            color: '#D1D5DB', 
+            margin: '4px 0' 
+          }}>
             Last Roll: {currentRoll}
           </p>
         )}
