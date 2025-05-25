@@ -1,0 +1,74 @@
+/* modal.css */
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background: linear-gradient(145deg, #1f1f1f, #2a2a2a);
+  color: white;
+  border: 2px solid silver;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  z-index: 1000;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.modal-icon {
+  font-size: 28px;
+  color: silver;
+}
+
+.modal-title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.modal-year {
+  font-size: 16px;
+  color: #ccc;
+  margin-bottom: 12px;
+}
+
+.modal-content {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+.modal-close {
+  margin-top: 20px;
+  background: silver;
+  color: black;
+  border: none;
+  padding: 8px 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.modal-close:hover {
+  background: white;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -60%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
