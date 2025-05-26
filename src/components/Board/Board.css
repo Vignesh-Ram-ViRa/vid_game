@@ -1,14 +1,18 @@
 @keyframes pulse {
-  0%, 100% { 
-    opacity: 1; 
+
+  0%,
+  100% {
+    opacity: 1;
   }
-  50% { 
-    opacity: 0.5; 
+
+  50% {
+    opacity: 0.5;
   }
 }
 
 .board-container {
   min-height: 100vh;
+  max-height: 100vh;
   background: linear-gradient(135deg, #000000, #1F2937);
   color: white;
   padding: 16px;
@@ -16,6 +20,9 @@
   flex-direction: column;
   align-items: center;
   padding-bottom: 120px;
+  overflow: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: silver black;
 }
 
 .board-title {
@@ -69,7 +76,7 @@
 
 .game-tile {
   position: relative;
-  border: 2px solid;
+  border: 2px solid black;
   border-radius: 8px;
   overflow: hidden;
   cursor: pointer;
@@ -102,7 +109,8 @@
 }
 
 .game-tile.default {
-  border-color: #9CA3AF;
+  /* border-color: #9CA3AF; */
+  border-color: linear-gradient(135deg, #000000, #1F2937);
 }
 
 .tile-overlay {
@@ -174,72 +182,72 @@
     padding: 8px;
     padding-bottom: 100px;
   }
-  
-  body { 
-    overflow-x: hidden; 
+
+  body {
+    overflow-x: hidden;
     -webkit-text-size-adjust: 100%;
   }
-  
-  * { 
-    -webkit-tap-highlight-color: transparent; 
+
+  * {
+    -webkit-tap-highlight-color: transparent;
   }
-  
+
   .board-title {
     font-size: 16px;
     margin-bottom: 16px;
     padding: 0 8px;
   }
-  
+
   .board-wrapper {
     padding: 12px;
     border-radius: 12px;
     margin-bottom: 16px;
   }
-  
+
   .board-grid {
     gap: 2px;
     width: min(95vw, 400px);
     height: min(95vw, 400px);
   }
-  
+
   .center-tile {
     border-radius: 4px;
     padding: 4px;
     font-size: 8px;
   }
-  
+
   .game-tile {
     border-radius: 4px;
   }
-  
+
   .game-tile:hover {
     border-color: inherit !important;
     transform: scale(1);
   }
-  
+
   .tile-content {
     padding: 2px;
   }
-  
+
   .tile-icon {
     font-size: 10px;
   }
-  
+
   .tile-year {
     font-size: 6px;
     border-radius: 2px;
     padding: 1px;
     min-height: 8px;
   }
-  
+
   .game-status {
     padding: 0 16px;
   }
-  
+
   .current-player {
     font-size: 14px;
   }
-  
+
   .last-roll {
     font-size: 12px;
   }

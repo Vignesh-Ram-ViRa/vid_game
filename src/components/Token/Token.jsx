@@ -11,7 +11,7 @@ function Token({ indices }) {
           key={playerIndex}
           className={`token player-${playerIndex}`}
         >
-          {playerIndex === 0 ? '👑' : '👸'}
+          {playerIndex === 0 ? '👸' : '👑'}
         </div>
       ))}
     </div>

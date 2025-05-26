@@ -24,16 +24,16 @@ function Board() {
 
   const rollDice = () => {
     if (rolled) return;
-    
+
     const roll = Math.floor(Math.random() * 6) + 1;
     setCurrentRoll(roll);
-    
+
     const newPositions = [...playerPositions];
     newPositions[currentPlayer] = Math.min(
       newPositions[currentPlayer] + roll,
       tiles.length - 1
     );
-    
+
     setPlayerPositions(newPositions);
     setModalData(tiles[newPositions[currentPlayer]]);
     setRolled(true);
@@ -52,7 +52,7 @@ function Board() {
 
     // Create the perimeter path
     const positions = [];
-    
+
     // Top row (left to right)
     for (let i = 0; i < boardSize; i++) positions.push([0, i]);
     // Right column (top to bottom, excluding top corner)
@@ -108,19 +108,19 @@ function Board() {
             const getTileClass = () => {
               let classes = 'game-tile';
               switch (tile.type) {
-                case 'danger': 
+                case 'danger':
                   classes += ' danger';
                   break;
-                case 'romance': 
+                case 'romance':
                   classes += ' romance';
                   break;
-                case 'challenge': 
+                case 'challenge':
                   classes += ' challenge';
                   break;
-                case 'trivia': 
+                case 'trivia':
                   classes += ' trivia';
                   break;
-                default: 
+                default:
                   classes += ' default';
               }
               return classes;
@@ -138,7 +138,7 @@ function Board() {
               >
                 {/* Dark overlay for better text readability */}
                 <div className="tile-overlay" />
-                
+
                 {/* Tile content */}
                 <div className="tile-content">
                   {tile.icon && (
@@ -153,9 +153,9 @@ function Board() {
 
                 {/* Player tokens */}
                 {isPlayerHere && <Token indices={tokenIndices} />}
-                
+
                 {/* Error handling for missing images */}
-                <img 
+                <img
                   src={getImageSrc()}
                   alt=""
                   className="tile-hidden-image"
@@ -176,7 +176,7 @@ function Board() {
       <h1 className="board-title">
         Vidhya turns 30+1 - The Board Game - By Vira
       </h1>
-      
+
       <div className="board-wrapper">
         {renderBoardTiles()}
       </div>
@@ -184,7 +184,7 @@ function Board() {
       {/* Game status */}
       <div className="game-status">
         <p className="current-player">
-          Current Player: {currentPlayer === 0 ? '👑 Player 1' : '👸 Player 2'}
+          Current Player: {currentPlayer === 0 ? '👸 Vidhya' : '👑 Vira'}
         </p>
         {currentRoll && (
           <p className="last-roll">

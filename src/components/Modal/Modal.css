@@ -51,7 +51,7 @@
 
 .modal-image {
   width: 192px;
-  height: 144px;
+  height: 250px;
   object-fit: cover;
   border-radius: 8px;
   border: 2px solid #4B5563;
@@ -110,7 +110,7 @@
   
   .modal-image {
     width: 150px;
-    height: 112px;
+    height: 200px;
   }
   
   .modal-year {

@@ -19,12 +19,12 @@
   font-weight: bold;
 }
 
-.token.player-0 {
+.token.player-1 {
   border-color: #93C5FD;
   background-color: #3B82F6;
 }
 
-.token.player-1 {
+.token.player-0 {
   border-color: #FCA5A5;
   background-color: #EF4444;
 }
