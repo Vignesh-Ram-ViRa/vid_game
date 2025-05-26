@@ -5,6 +5,7 @@ import Modal from '../Modal/Modal.jsx';
 import Token from '../Token/Token.jsx';
 import Dice from '../Dice/Dice.jsx';
 import './Board.css';
+import BackgroundMusicPlayer from '../MusicPlayer/BackgroundMusicPlayer.jsx';
 
 function Board() {
   const [playerPositions, setPlayerPositions] = useState([0, 0]);
@@ -70,103 +71,125 @@ function Board() {
       }
     });
 
+    // Create the grid elements
+    const gridElements = [];
+
+    boardLayout.forEach((row, rowIndex) => {
+      row.forEach((tile, colIndex) => {
+        const gridKey = `${rowIndex}-${colIndex}`;
+
+        // Handle center tile (spans 3x3 from position 3,3 to 5,5)
+        if (rowIndex >= 3 && rowIndex <= 5 && colIndex >= 3 && colIndex <= 5) {
+          // Only render the center tile once at position 3,3
+          if (rowIndex === 3 && colIndex === 3) {
+            gridElements.push(
+              <div
+                key="center"
+                style={{
+                  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${images[9999] || placeholderImage})`
+                }}
+                className="center-tile"
+              >
+                Vidhya turns<br />30+1
+              </div>
+
+            );
+          }
+          // Skip all other positions in the 3x3 center area
+          return;
+        }
+
+        // Empty tiles (areas not on the perimeter and not in center)
+        if (!tile) {
+          gridElements.push(
+            <div key={gridKey} className="empty-tile" />
+          );
+          return;
+        }
+
+        // Game tiles
+        const isPlayerHere = playerPositions.includes(tile.index);
+        const tokenIndices = playerPositions.reduce((acc, pos, i) => {
+          if (pos === tile.index) acc.push(i);
+          return acc;
+        }, []);
+
+        const getImageSrc = () => {
+          if (tile.image && images[tile.image]) {
+            return images[tile.image];
+          }
+          if (tile.type === 'start' || tile.type === 'finish') {
+            return images[tile.type];
+          }
+          return placeholderImage;
+        };
+
+        const getTileClass = () => {
+          let classes = 'game-tile';
+          switch (tile.type) {
+            case 'danger':
+              classes += ' danger';
+              break;
+            case 'romance':
+              classes += ' romance';
+              break;
+            case 'challenge':
+              classes += ' challenge';
+              break;
+            case 'trivia':
+              classes += ' trivia';
+              break;
+            default:
+              classes += ' default';
+          }
+          return classes;
+        };
+
+        gridElements.push(
+          <div
+            key={tile.index}
+            className={getTileClass()}
+            style={{
+              backgroundImage: `url(${getImageSrc()})`
+            }}
+            onClick={() => setModalData(tile)}
+            onTouchStart={() => setModalData(tile)}
+          >
+            {/* Dark overlay for better text readability */}
+            <div className="tile-overlay" />
+
+            {/* Tile content */}
+            <div className="tile-content">
+              {tile.icon && (
+                <div className="tile-icon">
+                  {tile.icon}
+                </div>
+              )}
+              <div className="tile-year">
+                {tile.year}
+              </div>
+            </div>
+
+            {/* Player tokens */}
+            {isPlayerHere && <Token indices={tokenIndices} />}
+
+            {/* Error handling for missing images */}
+            <img
+              src={getImageSrc()}
+              alt=""
+              className="tile-hidden-image"
+              onError={(e) => {
+                e.target.parentElement.style.backgroundImage = `url(${placeholderImage})`;
+              }}
+            />
+          </div>
+        );
+      });
+    });
+
     return (
       <div className="board-grid">
-        {boardLayout.map((row, rowIndex) =>
-          row.map((tile, colIndex) => {
-            // Center tile
-            if (rowIndex === 4 && colIndex === 4) {
-              return (
-                <div key="center" className="center-tile">
-                  Vidhya turns<br />30+1
-                </div>
-              );
-            }
-
-            // Empty tiles
-            if (!tile) {
-              return <div key={`${rowIndex}-${colIndex}`} className="empty-tile" />;
-            }
-
-            // Game tiles
-            const isPlayerHere = playerPositions.includes(tile.index);
-            const tokenIndices = playerPositions.reduce((acc, pos, i) => {
-              if (pos === tile.index) acc.push(i);
-              return acc;
-            }, []);
-
-            const getImageSrc = () => {
-              if (tile.image && images[tile.image]) {
-                return images[tile.image];
-              }
-              if (tile.type === 'start' || tile.type === 'finish') {
-                return images[tile.type];
-              }
-              return placeholderImage;
-            };
-
-            const getTileClass = () => {
-              let classes = 'game-tile';
-              switch (tile.type) {
-                case 'danger':
-                  classes += ' danger';
-                  break;
-                case 'romance':
-                  classes += ' romance';
-                  break;
-                case 'challenge':
-                  classes += ' challenge';
-                  break;
-                case 'trivia':
-                  classes += ' trivia';
-                  break;
-                default:
-                  classes += ' default';
-              }
-              return classes;
-            };
-
-            return (
-              <div
-                key={tile.index}
-                className={getTileClass()}
-                style={{
-                  backgroundImage: `url(${getImageSrc()})`
-                }}
-                onClick={() => setModalData(tile)}
-                onTouchStart={() => setModalData(tile)}
-              >
-                {/* Dark overlay for better text readability */}
-                <div className="tile-overlay" />
-
-                {/* Tile content */}
-                <div className="tile-content">
-                  {tile.icon && (
-                    <div className="tile-icon">
-                      {tile.icon}
-                    </div>
-                  )}
-                  <div className="tile-year">
-                    {tile.year}
-                  </div>
-                </div>
-
-                {/* Player tokens */}
-                {isPlayerHere && <Token indices={tokenIndices} />}
-
-                {/* Error handling for missing images */}
-                <img
-                  src={getImageSrc()}
-                  alt=""
-                  className="tile-hidden-image"
-                  onError={(e) => {
-                    e.target.parentElement.style.backgroundImage = `url(${placeholderImage})`;
-                  }}
-                />
-              </div>
-            );
-          })
-        )}
+        {gridElements}
       </div>
     );
   };
@@ -192,7 +215,7 @@ function Board() {
           </p>
         )}
       </div>
-
+      <BackgroundMusicPlayer />
       <Dice onRoll={rollDice} rolled={rolled} currentRoll={currentRoll} />
       <Modal data={modalData} onClose={closeModal} />
     </div>
