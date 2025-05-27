@@ -19,7 +19,7 @@
 }
 
 .logo-text {
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: bold;
   color: #D1D5DB;
   margin: 0;
@@ -58,14 +58,14 @@
 
 .player-label,
 .roll-label {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #9CA3AF;
   font-weight: 500;
 }
 
 .player-name,
 .roll-value {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: #D1D5DB;
   font-weight: 600;
 }
@@ -84,7 +84,7 @@
   }
 
   .logo-text {
-    font-size: 0.875rem;
+    font-size: 0.75rem;
     line-height: 1.1;
   }
 
@@ -101,12 +101,12 @@
 
   .player-label,
   .roll-label {
-    font-size: 0.75rem;
+    font-size: 0.5rem;
   }
 
   .player-name,
   .roll-value {
-    font-size: 0.75rem;
+    font-size: 0.5rem;
   }
 
   /* Hide labels on very small screens */

@@ -5,6 +5,7 @@ import './Modal.css';
 function Modal({ data, onClose }) {
   if (!data) return null;
 
+  const eventTileYear = ["Challenge", "Trivia"].includes(data.year) ? " - " + data.image : '';
   const iconMap = {
     milestone: '🌟',
     trivia: '❓',
@@ -32,9 +33,9 @@ function Modal({ data, onClose }) {
           <span className="modal-icon">{iconMap[data.type] || data.icon}</span>
           <h2 className="modal-title">{data.type}</h2>
         </div>
-        
+
         <div className="modal-image-container">
-          <img 
+          <img
             src={getImageSrc()}
             alt={`${data.year} - ${data.type}`}
             className="modal-image"
@@ -43,12 +44,12 @@ function Modal({ data, onClose }) {
             }}
           />
         </div>
-        
+
         <div className="modal-text-content">
-          <h3 className="modal-year">{data.year}</h3>
+          <h3 className="modal-year">{data.year}{eventTileYear}</h3>
           <p className="modal-description">{data.description}</p>
         </div>
-        
+
         <button className="modal-close-button" onClick={onClose}>
           Close
         </button>

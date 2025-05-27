@@ -6,7 +6,7 @@ function Header({ currentPlayer, currentRoll }) {
     <header className="game-header">
       <div className="header-logo">
         <h1 className="logo-text">
-          Vidhya turns 30+1 - The Board Game - By Vira
+          Vidhya turns 30+1 - A Board Game - By Vira
         </h1>
       </div>
       

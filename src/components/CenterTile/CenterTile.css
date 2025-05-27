@@ -37,3 +37,8 @@
   margin: -40%;
   overflow: hidden; /* Ensure video is clipped to border radius */
 }
+
+.center-tile-content {
+  display: flex;
+  flex-direction: column;
+}

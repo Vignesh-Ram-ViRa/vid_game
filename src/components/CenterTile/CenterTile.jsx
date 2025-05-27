@@ -35,11 +35,11 @@ const CenterTile = ({ videoSrc, images, placeholderImage }) => {
       className={`center-tile ${playing ? "video-playing" : ""}`}
     >
       {!playing && (
-        <>
-          Vidhya turns
-          <br />
-          30+1
-        </>
+        <div className="center-tile-content">
+          <div>Vidhya turns</div>
+          <div>30+1</div>
+          <div><sub>- A Board Game By Vira </sub></div>
+        </div>
       )}
 
       <video

@@ -17,14 +17,14 @@ export const tiles = [
   },
   {
     type: 'trivia',
-    year: '1996 - Trivia ',
+    year: 'Trivia',
     description: 'What was Vidhya doing when the world was born for her in 1994?\nA) Crying\nB) Plotting world domination\nC) Practicing Veena in the womb\nD) All of the above',
     image: '1996',
     icon: '❓'
   },
   {
     type: 'challenge',
-    year: '1997 - Challenge',
+    year: 'Challenge',
     description: 'Recite a Tamil movie love dialogue while staring into other\'s eyes... with full dramatic background score (mouth sound effects allowed).',
     image: '1997',
     icon: '🎭'
@@ -38,7 +38,7 @@ export const tiles = [
   },
   {
     type: 'trivia',
-    year: '1999\nTrivia',
+    year: 'Trivia',
     description: 'What was her favorite day to day activity?\nA) Sleeping\nB) Watching reels\nC) Ignoring you\nD) All, in that order',
     image: '1999',
     icon: '❓'
@@ -59,21 +59,21 @@ export const tiles = [
   },
   {
     type: 'challenge',
-    year: '2002 - Challenge',
+    year: 'Challenge',
     description: 'Pretend to be a movie villain confessing your love.',
     image: '2002',
     icon: '🎭'
   },
   {
     type: 'trivia',
-    year: '2003 - Trivia',
+    year: 'Trivia',
     description: 'What\'s her secret cure when she\'s upset?\nA) A hug from Vira\nB) Mushroom based anything\nC) Music + reels\nD) Shopping cart therapy',
     image: '2003',
     icon: '❓'
   },
   {
     type: 'challenge',
-    year: '2004 - Challenge',
+    year: 'Challenge',
     description: 'Describe other\'s beauty using only vegetable metaphors',
     image: '2004',
     icon: '🎭'
@@ -101,7 +101,7 @@ export const tiles = [
   },
   {
     type: 'trivia',
-    year: '2008 - Trivia',
+    year: 'Trivia',
     description: 'What\'s her "don\'t disturb me" signal?\nA) The annoyed look\nB) Headphone on. World off.\nC) Sleep mode\nD) Working and mumbling',
     image: '2008',
     icon: '❓'
@@ -110,7 +110,7 @@ export const tiles = [
 
   {
     type: 'challenge',
-    year: '2009 - Challenge',
+    year: 'Challenge',
     description: 'Mimic the other\'s "I\'m ignoring you" face for 5 seconds. They rate your accuracy.',
     image: '2009',
     icon: '🎭'
@@ -124,7 +124,7 @@ export const tiles = [
   },
   {
     type: 'trivia',
-    year: '2011 - Trivia',
+    year: 'Trivia',
     description: 'What did she not expect after marrying you?\nA) Romance\nB) Endless teasing\nC) Free tech support\nD) Free life advices',
     image: '2011',
     icon: '❓'
@@ -132,7 +132,7 @@ export const tiles = [
 
   {
     type: 'challenge',
-    year: '2012 - Challenge',
+    year: 'Challenge',
     description: 'Recreate a viral reel the other suggests.',
     image: '2012',
     icon: '🎭'
@@ -153,7 +153,7 @@ export const tiles = [
   },
   {
     type: 'trivia',
-    year: '2015 - Trivia',
+    year: 'Trivia',
     description: 'Which magical phrase makes her instantly suspicious of you?\nA) "Nothing\'s wrong!"\nB) "You look good today!"\nC) "I love you."\nD) "Let\'s talk about this later."',
     image: '2015',
     icon: '❓'
