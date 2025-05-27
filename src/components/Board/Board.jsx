@@ -6,6 +6,7 @@ import Token from '../Token/Token.jsx';
 import Dice from '../Dice/Dice.jsx';
 import './Board.css';
 import BackgroundMusicPlayer from '../MusicPlayer/BackgroundMusicPlayer.jsx';
+import CenterTile from '../CenterTile/CenterTile.jsx';
 
 function Board() {
   const [playerPositions, setPlayerPositions] = useState([0, 0]);
@@ -83,16 +84,11 @@ function Board() {
           // Only render the center tile once at position 3,3
           if (rowIndex === 3 && colIndex === 3) {
             gridElements.push(
-              <div
-                key="center"
-                style={{
-                  backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${images[9999] || placeholderImage})`
-                }}
-                className="center-tile"
-              >
-                Vidhya turns<br />30+1
-              </div>
-
+              <CenterTile
+                videoSrc="./video/full.mp4"
+                images={images}
+                placeholderImage={placeholderImage}
+              />
             );
           }
           // Skip all other positions in the 3x3 center area
