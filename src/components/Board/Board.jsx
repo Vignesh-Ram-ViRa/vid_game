@@ -4,6 +4,8 @@ import { tiles } from '../../constants/titles.js';
 import Modal from '../Modal/Modal.jsx';
 import Token from '../Token/Token.jsx';
 import Dice from '../Dice/Dice.jsx';
+import Header from '../Header/Header.jsx';
+import Confetti from '../Confetti/Confetti.jsx';
 import './Board.css';
 import BackgroundMusicPlayer from '../MusicPlayer/BackgroundMusicPlayer.jsx';
 import CenterTile from '../CenterTile/CenterTile.jsx';
@@ -15,6 +17,7 @@ function Board() {
   const [rolled, setRolled] = useState(false);
   const [currentRoll, setCurrentRoll] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,13 +34,20 @@ function Board() {
     setCurrentRoll(roll);
 
     const newPositions = [...playerPositions];
-    newPositions[currentPlayer] = Math.min(
+    const newPosition = Math.min(
       newPositions[currentPlayer] + roll,
       tiles.length - 1
     );
+    newPositions[currentPlayer] = newPosition;
+
+    // Check if player reached the finish tile
+    const finishTileIndex = tiles.findIndex(tile => tile.type === 'finish');
+    if (newPosition === finishTileIndex) {
+      setShowConfetti(true);
+    }
 
     setPlayerPositions(newPositions);
-    setModalData(tiles[newPositions[currentPlayer]]);
+    setModalData(tiles[newPosition]);
     setRolled(true);
   };
 
@@ -46,6 +56,10 @@ function Board() {
     setCurrentPlayer((prev) => (prev + 1) % 2);
     setRolled(false);
     setCurrentRoll(null);
+  };
+
+  const handleConfettiComplete = () => {
+    setShowConfetti(false);
   };
 
   const renderBoardTiles = () => {
@@ -85,6 +99,7 @@ function Board() {
           if (rowIndex === 3 && colIndex === 3) {
             gridElements.push(
               <CenterTile
+                key="center-tile"
                 videoSrc="./video/full.mp4"
                 images={images}
                 placeholderImage={placeholderImage}
@@ -192,28 +207,22 @@ function Board() {
 
   return (
     <div className="board-container">
-      <h1 className="board-title">
-        Vidhya turns 30+1 - The Board Game - By Vira
-      </h1>
-
+      <Header 
+        currentPlayer={currentPlayer}
+        currentRoll={currentRoll}
+      />
+      
       <div className="board-wrapper">
         {renderBoardTiles()}
       </div>
 
-      {/* Game status */}
-      <div className="game-status">
-        <p className="current-player">
-          Current Player: {currentPlayer === 0 ? '👸 Vidhya' : '👑 Vira'}
-        </p>
-        {currentRoll && (
-          <p className="last-roll">
-            Last Roll: {currentRoll}
-          </p>
-        )}
-      </div>
       <BackgroundMusicPlayer />
       <Dice onRoll={rollDice} rolled={rolled} currentRoll={currentRoll} />
       <Modal data={modalData} onClose={closeModal} />
+      <Confetti 
+        show={showConfetti} 
+        onComplete={handleConfettiComplete}
+      />
     </div>
   );
 }
