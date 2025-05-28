@@ -100,7 +100,7 @@ function Board() {
             gridElements.push(
               <CenterTile
                 key="center-tile"
-                videoSrc="./video/full.mp4"
+                videoSrc="./video/32years.mp4"
                 images={images}
                 placeholderImage={placeholderImage}
               />
