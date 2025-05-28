@@ -1,3 +1,33 @@
+@keyframes tokenGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 0.3125rem rgba(59, 130, 246, 0.3),
+      0 0 0.625rem rgba(59, 130, 246, 0.2),
+      inset 0 0.0625rem 0 rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 0.625rem rgba(59, 130, 246, 0.5),
+      0 0 1.25rem rgba(59, 130, 246, 0.3),
+      inset 0 0.0625rem 0 rgba(255, 255, 255, 0.2);
+  }
+}
+
+@keyframes tokenGlowRed {
+  0%, 100% {
+    box-shadow: 
+      0 0 0.3125rem rgba(239, 68, 68, 0.3),
+      0 0 0.625rem rgba(239, 68, 68, 0.2),
+      inset 0 0.0625rem 0 rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 0.625rem rgba(239, 68, 68, 0.5),
+      0 0 1.25rem rgba(239, 68, 68, 0.3),
+      inset 0 0.0625rem 0 rgba(255, 255, 255, 0.2);
+  }
+}
+
 .token-container {
   position: absolute;
   bottom: 0.25rem;
@@ -18,16 +48,91 @@
   justify-content: center;
   font-size: 0.75rem;
   font-weight: bold;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  text-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+}
+
+.token::before {
+  content: "";
+  position: absolute;
+  top: -0.125rem;
+  left: -0.125rem;
+  right: -0.125rem;
+  bottom: -0.125rem;
+  border-radius: 50%;
+  z-index: -1;
+  transition: opacity 0.3s ease;
+}
+
+.token::after {
+  content: "";
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  right: 0.125rem;
+  bottom: 0.125rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+  pointer-events: none;
 }
 
 .token.player-1 {
   border-color: #93C5FD;
-  background-color: #3B82F6;
+  background: linear-gradient(135deg, #3B82F6, #1D4ED8, #1E40AF);
+  box-shadow: 
+    0 0 0.3125rem rgba(59, 130, 246, 0.3),
+    0 0 0.625rem rgba(59, 130, 246, 0.2),
+    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.1),
+    inset 0 -0.0625rem 0 rgba(0, 0, 0, 0.2);
+  animation: tokenGlow 2s infinite ease-in-out;
+}
+
+.token.player-1::before {
+  background: linear-gradient(135deg, #60A5FA, #3B82F6);
+  opacity: 0;
+}
+
+.token.player-1:hover {
+  transform: scale(1.1);
+  border-color: #60A5FA;
+}
+
+.token.player-1:hover::before {
+  opacity: 1;
 }
 
 .token.player-0 {
   border-color: #FCA5A5;
-  background-color: #EF4444;
+  background: linear-gradient(135deg, #EF4444, #DC2626, #B91C1C);
+  box-shadow: 
+    0 0 0.3125rem rgba(239, 68, 68, 0.3),
+    0 0 0.625rem rgba(239, 68, 68, 0.2),
+    inset 0 0.0625rem 0 rgba(255, 255, 255, 0.1),
+    inset 0 -0.0625rem 0 rgba(0, 0, 0, 0.2);
+  animation: tokenGlowRed 2s infinite ease-in-out;
+}
+
+.token.player-0::before {
+  background: linear-gradient(135deg, #F87171, #EF4444);
+  opacity: 0;
+}
+
+.token.player-0:hover {
+  transform: scale(1.1);
+  border-color: #F87171;
+}
+
+.token.player-0:hover::before {
+  opacity: 1;
+}
+
+/* Subtle metallic shine effect */
+.token {
+  background-image: 
+    radial-gradient(ellipse at top, rgba(255, 255, 255, 0.1), transparent),
+    radial-gradient(ellipse at bottom, rgba(0, 0, 0, 0.1), transparent);
 }
 
 /* Mobile styles */
@@ -39,8 +144,38 @@
   }
   
   .token {
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 0.875rem;
+    height: 0.875rem;
     font-size: 0.5rem;
+    border-width: 0.0625rem;
+  }
+  
+  .token::after {
+    top: 0.0625rem;
+    left: 0.0625rem;
+    right: 0.0625rem;
+    bottom: 0.0625rem;
+  }
+  
+  .token:hover {
+    transform: scale(1.05);
+  }
+}
+
+/* Very small screens (phones in portrait) */
+@media (max-width: 480px) {
+  .token {
+    width: clamp(0.75rem, 4vw, 1rem);
+    height: clamp(0.75rem, 4vw, 1rem);
+    font-size: clamp(0.375rem, 2.5vw, 0.5rem);
+  }
+}
+
+/* Large screens optimization */
+@media (min-width: 1200px) {
+  .token {
+    width: clamp(1.5rem, 2vw, 2rem);
+    height: clamp(1.5rem, 2vw, 2rem);
+    font-size: clamp(0.75rem, 1vw, 1rem);
   }
 }

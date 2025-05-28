@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { playlist } from '../../constants/music.js';
+import { Volume2, VolumeX } from "lucide-react";
+import './BackgroundMusicPlayer.css';
 
 const BackgroundMusicPlayer = () => {
-  
-
   const audioRef = useRef(null);
   const [trackIndex, setTrackIndex] = useState(0);
   const [canPlay, setCanPlay] = useState(false);
   const [isTabActive, setIsTabActive] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
 
   // Pick a random track initially
   useEffect(() => {
@@ -48,14 +49,14 @@ const BackgroundMusicPlayer = () => {
     const audio = audioRef.current;
     if (!audio || !canPlay) return;
 
-    if (isTabActive) {
+    if (isTabActive && !isMuted) {
       audio.play().catch((err) => {
         console.warn("Play failed:", err);
       });
     } else {
       audio.pause();
     }
-  }, [canPlay, isTabActive, trackIndex]);
+  }, [canPlay, isTabActive, trackIndex, isMuted]);
 
   // Handle track end — shuffle next
   const handleEnded = () => {
@@ -66,16 +67,53 @@ const BackgroundMusicPlayer = () => {
     setTrackIndex(nextIndex);
   };
 
-  // Render only after user interaction
-  return canPlay ? (
-    <audio
-      ref={audioRef}
-      src={playlist[trackIndex]}
-      autoPlay
-      onEnded={handleEnded}
-      style={{ display: "none" }}
-    />
-  ) : null;
+  const toggleMute = () => {
+    setIsMuted(!isMuted);
+  };
+
+  return (
+    <>
+      {canPlay && (
+        <>
+          <audio
+            ref={audioRef}
+            src={playlist[trackIndex]}
+            autoPlay
+            onEnded={handleEnded}
+            style={{ display: "none" }}
+          />
+          
+          {/* SVG Gradients Definition */}
+          <svg className="music-gradients">
+            <defs>
+              <linearGradient id="silverGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#f8f9fa" stopOpacity="0.9" />
+                <stop offset="25%" stopColor="#e9ecef" stopOpacity="0.95" />
+                <stop offset="50%" stopColor="#c0c0c0" stopOpacity="1" />
+                <stop offset="75%" stopColor="#adb5bd" stopOpacity="0.95" />
+                <stop offset="100%" stopColor="#6c757d" stopOpacity="0.9" />
+              </linearGradient>
+            </defs>
+          </svg>
+          
+          {/* Music Container - Matches Dice Style */}
+          <div
+            onClick={toggleMute}
+            className={`music-container ${isMuted ? 'muted' : ''}`}
+            title={isMuted ? "Unmute Music" : "Mute Music"}
+          >
+            <div className="music-icon">
+              {isMuted ? (
+                <VolumeX />
+              ) : (
+                <Volume2 />
+              )}
+            </div>
+          </div>
+        </>
+      )}
+    </>
+  );
 };
 
 export default BackgroundMusicPlayer;
