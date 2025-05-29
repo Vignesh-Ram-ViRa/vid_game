@@ -1,12 +1,40 @@
 @keyframes pulse {
-
   0%,
   100% {
     opacity: 1;
   }
-
   50% {
     opacity: 0.5;
+  }
+}
+
+@keyframes tokenHop {
+  0% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.2) translateY(-10px);
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes tokenGlowBlue {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.8));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(59, 130, 246, 1));
+  }
+}
+
+@keyframes tokenGlowRed {
+  0%, 100% {
+    filter: drop-shadow(0 0 5px rgba(239, 68, 68, 0.8));
+  }
+  50% {
+    filter: drop-shadow(0 0 15px rgba(239, 68, 68, 1));
   }
 }
 
@@ -191,6 +219,23 @@
   display: none;
 }
 
+/* Token Animation Styles - Fixed to use proper colors */
+.token.player-1.animating {
+  animation: tokenHop 0.3s ease-in-out, tokenGlowBlue 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+.token.player-0.animating {
+  animation: tokenHop 0.3s ease-in-out, tokenGlowRed 0.3s ease-in-out;
+  z-index: 1000;
+}
+
+/* Fallback for any token without specific player class */
+.token.animating {
+  animation: tokenHop 0.3s ease-in-out;
+  z-index: 1000;
+}
+
 /* Mobile styles */
 @media (max-width: 767px) {
   .board-container {
@@ -253,5 +298,30 @@
     border-radius: 0.125rem;
     padding: 0.0625rem;
     min-height: 0.5rem;
+  }
+
+  /* Mobile token animation adjustments */
+  .token.player-1.animating {
+    animation: tokenHop 0.25s ease-in-out, tokenGlowBlue 0.25s ease-in-out;
+  }
+
+  .token.player-0.animating {
+    animation: tokenHop 0.25s ease-in-out, tokenGlowRed 0.25s ease-in-out;
+  }
+
+  .token.animating {
+    animation: tokenHop 0.25s ease-in-out;
+  }
+
+  @keyframes tokenHop {
+    0% {
+      transform: scale(1) translateY(0);
+    }
+    50% {
+      transform: scale(1.15) translateY(-5px);
+    }
+    100% {
+      transform: scale(1) translateY(0);
+    }
   }
 }

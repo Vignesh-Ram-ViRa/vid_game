@@ -59,7 +59,7 @@
   animation: modalFadeIn 0.3s ease-out;
   scrollbar-width: thin;
   scrollbar-color: #4B5563 transparent;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 .modal-content::before {

@@ -18,6 +18,11 @@ function Board() {
   const [currentRoll, setCurrentRoll] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showConfetti, setShowConfetti] = useState(false);
+  
+  // Animation states
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [animatingPlayer, setAnimatingPlayer] = useState(null);
+  const [animationPosition, setAnimationPosition] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,28 +32,53 @@ function Board() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const animateTokenMovement = async (playerIndex, startPos, endPos, rollValue) => {
+    setIsAnimating(true);
+    setAnimatingPlayer(playerIndex);
+    
+    // Animate step by step
+    for (let step = 1; step <= rollValue; step++) {
+      const currentPos = Math.min(startPos + step, tiles.length - 1);
+      setAnimationPosition(currentPos);
+      
+      // Wait for animation step (300ms per step)
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      // Break if we've reached the end
+      if (currentPos >= tiles.length - 1) break;
+    }
+    
+    // Animation complete
+    setIsAnimating(false);
+    setAnimatingPlayer(null);
+    setAnimationPosition(null);
+    
+    // Now update the actual player position and show modal
+    const newPositions = [...playerPositions];
+    const finalPosition = Math.min(startPos + rollValue, tiles.length - 1);
+    newPositions[playerIndex] = finalPosition;
+    
+    // Check if player reached the finish tile
+    const finishTileIndex = tiles.findIndex(tile => tile.type === 'finish');
+    if (finalPosition === finishTileIndex) {
+      setShowConfetti(true);
+    }
+    
+    setPlayerPositions(newPositions);
+    setModalData(tiles[finalPosition]);
+  };
+
   const rollDice = () => {
-    if (rolled) return;
+    if (rolled || isAnimating) return;
 
     const roll = Math.floor(Math.random() * 6) + 1;
     setCurrentRoll(roll);
-
-    const newPositions = [...playerPositions];
-    const newPosition = Math.min(
-      newPositions[currentPlayer] + roll,
-      tiles.length - 1
-    );
-    newPositions[currentPlayer] = newPosition;
-
-    // Check if player reached the finish tile
-    const finishTileIndex = tiles.findIndex(tile => tile.type === 'finish');
-    if (newPosition === finishTileIndex) {
-      setShowConfetti(true);
-    }
-
-    setPlayerPositions(newPositions);
-    setModalData(tiles[newPosition]);
     setRolled(true);
+
+    const startPosition = playerPositions[currentPlayer];
+    
+    // Start the animation
+    animateTokenMovement(currentPlayer, startPosition, startPosition + roll, roll);
   };
 
   const closeModal = () => {
@@ -119,11 +149,24 @@ function Board() {
         }
 
         // Game tiles
-        const isPlayerHere = playerPositions.includes(tile.index);
-        const tokenIndices = playerPositions.reduce((acc, pos, i) => {
-          if (pos === tile.index) acc.push(i);
+        const staticTokenIndices = playerPositions.reduce((acc, pos, i) => {
+          // FIXED: Don't show the animating player at their original position
+          if (pos === tile.index && !(isAnimating && i === animatingPlayer)) {
+            acc.push(i);
+          }
           return acc;
         }, []);
+
+        // Check if this tile has the animating token
+        const hasAnimatingToken = isAnimating && 
+          animatingPlayer !== null && 
+          animationPosition === tile.index;
+
+        // Combine static and animating tokens
+        const allTokenIndices = [...staticTokenIndices];
+        if (hasAnimatingToken) {
+          allTokenIndices.push(animatingPlayer);
+        }
 
         const getImageSrc = () => {
           if (tile.image && images[tile.image]) {
@@ -163,8 +206,8 @@ function Board() {
             style={{
               backgroundImage: `url(${getImageSrc()})`
             }}
-            onClick={() => setModalData(tile)}
-            onTouchStart={() => setModalData(tile)}
+            onClick={() => !isAnimating && setModalData(tile)}
+            onTouchStart={() => !isAnimating && setModalData(tile)}
           >
             {/* Dark overlay for better text readability */}
             <div className="tile-overlay" />
@@ -181,8 +224,14 @@ function Board() {
               </div>
             </div>
 
-            {/* Player tokens */}
-            {isPlayerHere && <Token indices={tokenIndices} />}
+            {/* Player tokens (including animating ones) */}
+            {allTokenIndices.length > 0 && (
+              <Token 
+                indices={allTokenIndices} 
+                isAnimating={hasAnimatingToken}
+                animatingPlayer={animatingPlayer}
+              />
+            )}
 
             {/* Error handling for missing images */}
             <img
@@ -217,7 +266,12 @@ function Board() {
       </div>
 
       <BackgroundMusicPlayer />
-      <Dice onRoll={rollDice} rolled={rolled} currentRoll={currentRoll} />
+      <Dice 
+        onRoll={rollDice} 
+        rolled={rolled} 
+        currentRoll={currentRoll}
+        disabled={isAnimating}
+      />
       <Modal data={modalData} onClose={closeModal} />
       <Confetti 
         show={showConfetti} 
