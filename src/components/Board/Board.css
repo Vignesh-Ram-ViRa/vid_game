@@ -90,10 +90,11 @@
 
 * {
   font-family: "Poppins", sans-serif;
+  box-sizing: border-box;
 }
 
 .board-container {
-  max-height: 90vh;
+  max-height: 100vh;
   background:
     radial-gradient(circle at 20% 20%, rgba(192, 192, 192, 0.1) 0%, transparent 50%),
     radial-gradient(circle at 80% 80%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
@@ -103,12 +104,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding-bottom: 7.5rem;
   padding-top: 5rem;
-  overflow: scroll;
+  overflow: hidden;
   scrollbar-width: thin;
   scrollbar-color: silver black;
   position: relative;
+  min-height: 100vh;
+  margin-top: 3rem;
 }
 
 .board-container::before {
@@ -140,6 +144,9 @@
   width: fit-content;
   position: relative;
   animation: borderGlow 4s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .board-wrapper::before {
@@ -170,8 +177,8 @@
 
 .board-grid {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  grid-template-rows: repeat(9, 1fr);
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  grid-template-rows: repeat(9, minmax(0, 1fr));
   gap: 0.75rem;
   width: min(90vw, 45rem);
   height: min(90vw, 45rem);
@@ -201,6 +208,7 @@
 .empty-tile {
   background-color: transparent;
   position: relative;
+  aspect-ratio: 1;
 }
 
 .empty-tile:nth-child(5n)::before {
@@ -225,6 +233,7 @@
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
   height: 100%;
+  aspect-ratio: 1;
   background-size: cover;
   background-position: center;
   box-shadow:
@@ -471,95 +480,243 @@
   z-index: 1000;
 }
 
-/* Mobile styles */
-@media (max-width: 767px) {
+/* Specific optimizations for OnePlus 12 and similar flagship devices */
+@media (max-width: 430px) and (min-height: 800px) {
   .board-container {
-    padding: 0.5rem;
-    padding-bottom: 6.25rem;
-    padding-top: 7rem;
+    padding: 0.25rem;
+    padding-bottom: 6rem;
+    padding-top: 6.5rem;
     min-height: 100vh;
+    max-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: unset;
   }
 
   body {
-    overflow-x: hidden;
+    overflow: hidden;
     -webkit-text-size-adjust: 100%;
+    -webkit-user-select: none;
+    user-select: none;
   }
 
   * {
     -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
   }
 
   .board-wrapper {
-    padding: 1rem;
+    padding: 0.5rem;
     border-radius: 1rem;
+    margin: 0;
+    width: 100%;
+    max-width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .board-wrapper::after {
+    top: 0.5rem;
+    left: 0.5rem;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    border-radius: 0.75rem;
+  }
+
+  .board-grid {
+    gap: 0.25rem;
+    width: min(92vw, 22rem);
+    height: min(92vw, 22rem);
+    padding: 0.125rem;
+    border-radius: 0.75rem;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    grid-template-rows: repeat(9, minmax(0, 1fr));
+    margin: 0 auto;
+  }
+
+  .center-tile {
+    font-size: 0.6rem;
+    padding: 0.125rem;
+    grid-column: 4 / 7;
+    grid-row: 4 / 7;
+    border-radius: 0.25rem;
+  }
+
+  .game-tile {
+    border-radius: 0.25rem;
+    border: 1px solid transparent;
+    min-height: 0;
+    aspect-ratio: 1;
+  }
+
+  .game-tile:hover,
+  .game-tile:active,
+  .game-tile:focus {
+    transform: scale(1.05);
+    box-shadow:
+      0 4px 8px -1px rgba(0, 0, 0, 0.4),
+      0 2px 4px -1px rgba(0, 0, 0, 0.2),
+      0 0 10px rgba(192, 192, 192, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    z-index: 10;
+  }
+
+  .tile-content {
+    padding: 0.125rem;
+  }
+
+  .tile-icon {
+    font-size: 0.6rem;
+    line-height: 1;
+  }
+
+  .tile-year {
+    font-size: 0.34rem;
+    border-radius: 0.125rem;
+    padding: 0.0625rem 0.125rem;
+    min-height: 0.75rem;
+    line-height: 1;
+    margin-bottom: 0.01rem;
+    font-weight: 600;
+  }
+
+  .empty-tile:nth-child(5n)::before {
+    width: 3px;
+    height: 3px;
+  }
+
+  /* Enhanced token animations for mobile */
+  .token.player-1.animating {
+    animation: tokenHopMobile 0.25s ease-in-out, tokenGlowBlueMobile 0.25s ease-in-out;
+    z-index: 1000;
+  }
+
+  .token.player-0.animating {
+    animation: tokenHopMobile 0.25s ease-in-out, tokenGlowRedMobile 0.25s ease-in-out;
+    z-index: 1000;
+  }
+
+  .token.animating {
+    animation: tokenHopMobile 0.25s ease-in-out;
+    z-index: 1000;
+  }
+
+  @keyframes tokenHopMobile {
+    0% {
+      transform: scale(1) translateY(0);
+    }
+
+    50% {
+      transform: scale(1.3) translateY(-3px);
+    }
+
+    100% {
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  @keyframes tokenGlowBlueMobile {
+
+    0%,
+    100% {
+      filter: drop-shadow(0 0 3px rgba(59, 130, 246, 0.8));
+    }
+
+    50% {
+      filter: drop-shadow(0 0 8px rgba(59, 130, 246, 1));
+    }
+  }
+
+  @keyframes tokenGlowRedMobile {
+
+    0%,
+    100% {
+      filter: drop-shadow(0 0 3px rgba(239, 68, 68, 0.8));
+    }
+
+    50% {
+      filter: drop-shadow(0 0 8px rgba(239, 68, 68, 1));
+    }
+  }
+}
+
+/* Tablet optimization */
+@media (min-width: 431px) and (max-width: 1024px) {
+  .board-container {
+    padding: 0.75rem;
+    padding-bottom: 7rem;
+    padding-top: 5.5rem;
+    margin-top: unset;
+  }
+
+  .board-wrapper {
+    padding: 1.25rem;
+    border-radius: 1.5rem;
     margin-bottom: 1rem;
     margin-top: 1rem;
   }
 
   .board-grid {
     gap: 0.5rem;
-    width: min(95vw, 25rem);
-    height: min(95vw, 25rem);
-    padding: 0.25rem;
-  }
-
-  .center-tile {
-    font-size: 0.75rem;
-    padding: 0.25rem;
-    grid-column: 4 / 7;
-    grid-row: 4 / 7;
-  }
-
-  .game-tile {
-    border-radius: 0.25rem;
-  }
-
-  .game-tile:hover {
-    transform: scale(1.02);
-    box-shadow:
-      0 4px 6px -1px rgba(0, 0, 0, 0.3),
-      0 2px 4px -1px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    width: min(85vw, 35rem);
+    height: min(85vw, 35rem);
+    padding: 0.375rem;
   }
 
   .tile-content {
-    padding: 0.1875rem;
+    padding: 0.25rem;
   }
 
   .tile-icon {
-    font-size: 0.75rem;
+    font-size: 0.9rem;
   }
 
   .tile-year {
-    font-size: 0.5rem;
-    border-radius: 0.1875rem;
-    padding: 0.125rem;
-    min-height: 0.625rem;
+    font-size: 0.55rem;
+    padding: 0.1875rem;
+    min-height: 0.875rem;
+  }
+}
+
+/* Additional mobile breakpoints for better alignment */
+@media (max-width: 375px) {
+  .board-grid {
+    width: min(90vw, 20rem);
+    height: min(90vw, 20rem);
+    gap: 0.1875rem;
   }
 
-  .token.player-1.animating {
-    animation: tokenHop 0.25s ease-in-out, tokenGlowBlue 0.25s ease-in-out;
+  .tile-year {
+    font-size: 0.35rem;
+    padding: 0.05rem 0.1rem;
   }
 
-  .token.player-0.animating {
-    animation: tokenHop 0.25s ease-in-out, tokenGlowRed 0.25s ease-in-out;
+  .tile-icon {
+    font-size: 0.55rem;
+  }
+}
+
+@media (min-width: 431px) and (max-width: 480px) {
+  .board-grid {
+    width: min(88vw, 26rem);
+    height: min(88vw, 26rem);
+    gap: 0.3125rem;
+  }
+}
+
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  .game-tile {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
   }
 
-  .token.animating {
-    animation: tokenHop 0.25s ease-in-out;
-  }
-
-  @keyframes tokenHop {
-    0% {
-      transform: scale(1) translateY(0);
-    }
-
-    50% {
-      transform: scale(1.15) translateY(-5px);
-    }
-
-    100% {
-      transform: scale(1) translateY(0);
-    }
+  .tile-year {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
