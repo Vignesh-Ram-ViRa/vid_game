@@ -17,6 +17,7 @@ function Board() {
   const [rolled, setRolled] = useState(false);
   const [currentRoll, setCurrentRoll] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isTablet, setIsTablet] = useState(window.innerWidth >= 768 && window.innerWidth <= 1024);
   const [showConfetti, setShowConfetti] = useState(false);
   
   // Animation states
@@ -26,23 +27,50 @@ function Board() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsTablet(width >= 768 && width <= 1024);
     };
+    
     window.addEventListener('resize', handleResize);
+    
+    // Initial call
+    handleResize();
+    
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // Prevent zoom on double tap for mobile
+  useEffect(() => {
+    if (isMobile) {
+      const preventDoubleClick = (e) => {
+        if (e.detail > 1) {
+          e.preventDefault();
+        }
+      };
+      
+      document.addEventListener('click', preventDoubleClick, { passive: false });
+      
+      return () => {
+        document.removeEventListener('click', preventDoubleClick);
+      };
+    }
+  }, [isMobile]);
 
   const animateTokenMovement = async (playerIndex, startPos, endPos, rollValue) => {
     setIsAnimating(true);
     setAnimatingPlayer(playerIndex);
+    
+    // Adjust animation speed based on device
+    const stepDelay = isMobile ? 250 : isTablet ? 275 : 300;
     
     // Animate step by step
     for (let step = 1; step <= rollValue; step++) {
       const currentPos = Math.min(startPos + step, tiles.length - 1);
       setAnimationPosition(currentPos);
       
-      // Wait for animation step (300ms per step)
-      await new Promise(resolve => setTimeout(resolve, 300));
+      // Wait for animation step
+      await new Promise(resolve => setTimeout(resolve, stepDelay));
       
       // Break if we've reached the end
       if (currentPos >= tiles.length - 1) break;
@@ -92,6 +120,12 @@ function Board() {
     setShowConfetti(false);
   };
 
+  const handleTileInteraction = (tile) => {
+    if (!isAnimating) {
+      setModalData(tile);
+    }
+  };
+
   const renderBoardTiles = () => {
     const boardSize = 9;
     const boardLayout = Array(boardSize).fill(null).map(() => Array(boardSize).fill(null));
@@ -136,7 +170,6 @@ function Board() {
               />
             );
           }
-          // Skip all other positions in the 3x3 center area
           return;
         }
 
@@ -150,7 +183,6 @@ function Board() {
 
         // Game tiles
         const staticTokenIndices = playerPositions.reduce((acc, pos, i) => {
-          // FIXED: Don't show the animating player at their original position
           if (pos === tile.index && !(isAnimating && i === animatingPlayer)) {
             acc.push(i);
           }
@@ -206,8 +238,11 @@ function Board() {
             style={{
               backgroundImage: `url(${getImageSrc()})`
             }}
-            onClick={() => !isAnimating && setModalData(tile)}
-            onTouchStart={() => !isAnimating && setModalData(tile)}
+            onClick={() => handleTileInteraction(tile)}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              handleTileInteraction(tile);
+            }}
           >
             {/* Dark overlay for better text readability */}
             <div className="tile-overlay" />
