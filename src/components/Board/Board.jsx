@@ -273,6 +273,8 @@ function Board() {
               src={getImageSrc()}
               alt=""
               className="tile-hidden-image"
+              loading="lazy"
+              style={{ display: 'none' }}
               onError={(e) => {
                 e.target.parentElement.style.backgroundImage = `url(${placeholderImage})`;
               }}

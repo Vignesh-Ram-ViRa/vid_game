@@ -39,6 +39,7 @@ function Modal({ data, onClose }) {
             src={getImageSrc()}
             alt={`${data.year} - ${data.type}`}
             className="modal-image"
+            loading="lazy"
             onError={(e) => {
               e.target.src = placeholderImage;
             }}
