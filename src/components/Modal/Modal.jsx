@@ -20,8 +20,8 @@ function Modal({ data, onClose }) {
     if (data.image && images[data.image]) {
       return images[data.image];
     }
-    if (data.type === 'start' || data.type === 'finish') {
-      return images[data.type];
+    if (data.type === 'start' && images['start']) {
+      return images['start'];
     }
     return placeholderImage;
   };

@@ -6,7 +6,7 @@ export const tiles = [
     year: '1994',
     description: 'The Universe sighed... "She\'s here!"',
     image: '1994',
-    icon: '👶'
+    icon: '👶🏽'
   },
   {
     type: 'milestone',
@@ -34,7 +34,7 @@ export const tiles = [
     year: '1998',
     description: 'Brother Unlocked! (Trouble Level: High)',
     image: '1998',
-    icon: '👦'
+    icon: '👦🏽'
   },
   {
     type: 'trivia',
@@ -46,9 +46,9 @@ export const tiles = [
   {
     type: 'milestone',
     year: '2000',
-    description: 'Sisters vs Babyzilla',
+    description: 'Highlight of the year: Sister Squad vs. Babyzilla',
     image: '2000',
-    icon: '👭'
+    icon: '😈'
   },
   {
     type: 'danger',
@@ -74,30 +74,30 @@ export const tiles = [
   {
     type: 'challenge',
     year: 'Challenge',
-    description: 'Describe other\'s beauty using only vegetable metaphors',
+    description: 'Describe other\'s beauty using only vegetable metaphors !!',
     image: '2004',
     icon: '🎭'
   },
   {
     type: 'milestone',
     year: '2005',
-    description: 'Mastered the art of fake crying.',
+    description: 'First silly crisis: Suicidal but make it herbal.',
     image: '2005',
-    icon: '😭'
+    icon: '🤮'
   },
   {
     type: 'milestone',
     year: '2006',
     description: 'Our origin story - summer vacations - where we started off by ignoring each other.',
     image: '2006',
-    icon: '🏖️'
+    icon: '😏'
   },
   {
     type: 'milestone',
     year: '2007',
     description: 'Certified Grown-Up - Child to Maiden',
     image: '2007',
-    icon: '🎓'
+    icon: '👩🏽‍🦱'
   },
   {
     type: 'trivia',
@@ -125,7 +125,7 @@ export const tiles = [
   {
     type: 'trivia',
     year: 'Trivia',
-    description: 'What did she not expect after marrying you?\nA) Romance\nB) Endless teasing\nC) Free tech support\nD) Free life advices',
+    description: 'What did she not expect after marrying Vira?\nA) Romance\nB) Endless teasing\nC) Free tech support\nD) Free life advices',
     image: '2011',
     icon: '❓'
   },
@@ -154,7 +154,7 @@ export const tiles = [
   {
     type: 'trivia',
     year: 'Trivia',
-    description: 'Which magical phrase makes her instantly suspicious of you?\nA) "Nothing\'s wrong!"\nB) "You look good today!"\nC) "I love you."\nD) "Let\'s talk about this later."',
+    description: 'Which magical phrase makes her instantly suspicious of Vira?\nA) "Nothing\'s wrong!"\nB) "You look good today!"\nC) "I love you."\nD) "Let\'s talk about this later."',
     image: '2015',
     icon: '❓'
   },
@@ -177,8 +177,8 @@ export const tiles = [
     year: '2018',
     description: 'Self-Reboot 2.0 - Chennai Style',
     image: '2018',
-    icon: '🔄'
-  }, 
+    icon: '💃🏽'
+  },
   {
     type: 'milestone',
     year: '2019',
@@ -191,21 +191,21 @@ export const tiles = [
     year: '2020',
     description: 'Wedding Bells & Beast Mode Husband (Vira, obviously)',
     image: '2020',
-    icon: '👰'
+    icon: '👨🏽‍❤️‍👩🏻'
   },
   {
     type: 'milestone',
     year: '2021',
     description: 'Promoted to Mom: No Leave. No Overtime Pay.',
     image: '2021',
-    icon: '👶'
+    icon: '👩🏻‍👦🏻'
   },
   {
     type: 'milestone',
     year: '2022',
-    description: 'Back to Chennai: Switched to a Government job in private sector!',
+    description: 'Back to Chennai—joined TCS, aka Government Pvt Ltd!',
     image: '2022',
-    icon: '✈️'
+    icon: '💻'
   },
   {
     type: 'milestone',
@@ -221,5 +221,5 @@ export const tiles = [
     image: '2024',
     icon: '🚗'
   },
-  { type: 'finish', year: '', description: 'Finish: Queendom', image: '2025', icon: '👑' },
+  { type: 'finish', year: '', description: 'Finish: Queendom', image: '2025', icon: '👸🏽' },
 ];

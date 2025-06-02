@@ -34,7 +34,7 @@ export const images = {
   2022: './images/2022.jpg',
   2023: './images/2023.jpg',
   2024: './images/2024.jpg',
-  start: './images/test.jpg',
+  start: './images/center.jpg',
   finish: './images/2025.jpg',
   9999: './images/center.jpg',
 };

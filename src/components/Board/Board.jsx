@@ -204,9 +204,6 @@ function Board() {
           if (tile.image && images[tile.image]) {
             return images[tile.image];
           }
-          if (tile.type === 'start' || tile.type === 'finish') {
-            return images[tile.type];
-          }
           return placeholderImage;
         };
 
