@@ -278,6 +278,7 @@
 
   .game-tile {
     border-radius: 0.25rem;
+    border: 0.0125rem solid black
   }
 
   .game-tile:hover {
