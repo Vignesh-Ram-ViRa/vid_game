@@ -191,14 +191,14 @@ export const tiles = [
     year: '2020',
     description: 'Wedding Bells & Beast Mode Husband (Vira, obviously)',
     image: '2020',
-    icon: '👨🏽‍❤️‍👩🏻'
+    icon: '👰🏽'
   },
   {
     type: 'milestone',
     year: '2021',
     description: 'Promoted to Mom: No Leave. No Overtime Pay.',
     image: '2021',
-    icon: '👩🏻‍👦🏻'
+    icon: '👼🏽'
   },
   {
     type: 'milestone',
