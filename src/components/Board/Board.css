@@ -264,7 +264,7 @@
 
   .board-grid {
     gap: 0.45rem;
-    width: min(95vw, 24rem);
+    width: min(95vw, 23rem);
     height: min(95vw, 25rem);
   }
 
