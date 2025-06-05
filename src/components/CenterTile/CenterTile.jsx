@@ -13,7 +13,7 @@ const CenterTile = ({ videoSrc, images, placeholderImage }) => {
       video.play();
     }
     else
-        setPlaying(false);
+      setPlaying(false);
   };
 
   const handleVideoEnd = () => {
@@ -38,7 +38,8 @@ const CenterTile = ({ videoSrc, images, placeholderImage }) => {
         <div className="center-tile-content">
           <div>Vidhya turns</div>
           <div>30+1</div>
-          <div><sub>- A Board Game By Vira </sub></div>
+          <div className="viraCredit">- A Board Game By Vira </div>
+          <div className="playButton">( Click to watch her life bloom ⏯️ )</div>
         </div>
       )}
 

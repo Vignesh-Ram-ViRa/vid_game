@@ -43,6 +43,11 @@
   margin: -40%;
   overflow: hidden;
   text-shadow: 1px 1px 2px #000;
+  .playButton {
+      font-size: 0.5rem;
+      margin-top: 0.25rem;
+      color: silver;
+    }
 }
 
 .center-tile:hover {
@@ -127,5 +132,17 @@
   }
   100% {
     border-image-source: linear-gradient(135deg, #C0C0C0, #333333, #AAAAAA);
+  }
+}
+
+@media (max-width: 768px) {
+  .center-tile-content {
+    font-size: 0.575rem;
+    .playButton {
+      font-size: 0.25rem;
+    }
+    .viraCredit {
+      font-size: 0.45rem;
+    }
   }
 }
